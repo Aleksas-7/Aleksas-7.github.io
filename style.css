@@ -8,11 +8,6 @@ body {
     justify-content: center;
 }
 
-img {
-    width: 80px;
-    aspect-ratio: 3 / 4;
-}
-
 #window {
     background-color: rgba(31, 105, 208, 0.401);
     width: 100%;
@@ -72,6 +67,8 @@ img {
     width: 100%;
     background-color: greenyellow;
     height: calc(100% - 35px);
+    display: flex;
+    flex-wrap: wrap;
 }
 
 
@@ -90,6 +87,20 @@ img {
 }
 
 
+.card {
+    width: 60px;
+    height: 90px;
+    margin: 0px;
+    padding: 0px;
+}
+.card img {
+    width: 60px;
+    aspect-ratio: 2 / 3;
+ 
+}
+.face {
+    display: none;
+}
 
 
 /*            GAME          */
