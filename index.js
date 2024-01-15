@@ -37,11 +37,7 @@ function makeDeck () {
     console.log(cardDeck);
 }
 
-
-
-
 $(document).ready(function() {
-
 
 $(".card").on("click", function(){
     $(this).switchCardFace();
