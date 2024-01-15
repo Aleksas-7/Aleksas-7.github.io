@@ -6,8 +6,8 @@ Hello!
 
 This is for me, don't look, frl.
 
-    Open the Terminal in VS Code:
-        Press Ctrl + backtick
+Open the Terminal in VS Code:
+    Press Ctrl + backtick
 
 Check the Git status:
     git status

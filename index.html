@@ -4,8 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js"></script>
 </head>
 <body>
-    <div>Helllllllllllllllllllllliiiiiiiioooooooooooo!!!!!!!</div>
+    <div id="window">
+        <div id="topcontrol" class="top-ribbon" >
+            <button class="top-nav-button">_</button>
+            <button class="top-nav-button">M</button>
+            <button id="bX" class="top-nav-button">X</button>
+        </div>
+        <div id="topnavcontrol" class="top-ribbon"></div>
+        <div id="screen">
+            <div id="game">
+                <div id="game-con">
+                    <button class="top-game-con-button">Diff+</button>
+                    <button class="top-game-con-button">Diff</button>
+                    <button class="top-game-con-button">Diff-</button>
+
+                    <button class="top-game-con-button">Reset</button>
+                    <button class="top-game-con-button">Leaderbord</button>
+                </div>
+                <div id="game-screen">
+                    <div class="card">
+                        <img class="back" src="art/card_back.png">
+                        <img class="face" src="art/clubs1.png">
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>
