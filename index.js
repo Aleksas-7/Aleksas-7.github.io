@@ -1,7 +1,7 @@
 
 //      3x3 4x4 5x5 6x6 7x7 Would be 5 different difficulity modes
 //Diff:  1   2   3   4   5
-// the table 
+
 
 let game_difficulty = 1; // add 2 for size
 let console_log = true;
@@ -50,32 +50,63 @@ function renderDeck() {
     }
 }
 
+function switchCardFace(cardCopy) {
+    var cardId = $(cardCopy).parent().attr("id");
+    console.log("112 ", cardId);
+    var idParts = cardId.split("c");
+    var r = parseInt(idParts[0].replace("r", ""));
+    var c = parseInt(idParts[1]);
+
+    var cardIndex = (r - 1) * (game_difficulty + 2) + c - 1;
+    if (console_log){console.log("A Card Clicked r/c: " + String(r)+ "/" + String(c) + "| now face Shown " + String(!cardDeck[cardIndex].faceShown) + " |index: " + cardIndex);}
+
+    var back = $(cardCopy).find(".back");
+    var face = $(cardCopy).find(".face");
+    if (cardDeck[cardIndex].faceShown){
+        back.show();
+        face.hide();
+    } else {
+        back.hide();
+        face.show();
+    }
+    cardDeck[cardIndex].faceShown = !cardDeck[cardIndex].faceShown;
+}
+
+let firstCard = null;
+let firstCardFliped = false;
+let game_stop = false;
 
 $(document).ready(function () {
     makeDeck();
     renderDeck();  
 
     $(document).on("click", ".card", function () {
-
-        var cardId = $(this).parent().attr("id");
-        var idParts = cardId.split("c");
-        var r = parseInt(idParts[0].replace("r", ""));
-        var c = parseInt(idParts[1]);
         
-        var cardIndex = (r - 1) * (game_difficulty + 2) + c - 1;
-        if (console_log){console.log("A Card Clicked r/c: " + String(r)+ "/" + String(c) + "| now face Shown " + String(!cardDeck[cardIndex].faceShown));}
+        if (firstCardFliped && !game_stop){
+            const currentCard = this;
+            switchCardFace(currentCard);
+            // jau atverstos abi kortos: this ir firstCard
 
-        var back = $(this).find(".back");
-        var face = $(this).find(".face");
-        if (cardDeck[cardIndex].faceShown){
-            back.show();
-            face.hide();
-        } else {
-            back.hide();
-            face.show();
+            setTimeout(() => {
+                switchCardFace(firstCard);
+                switchCardFace(currentCard);
+
+                game_stop = false;
+
+                firstCard = null;
+                firstCardFliped = false;
+            }, 333);
+            game_stop = true;
+
+            
+
+
+        } else if (!game_stop) {
+            switchCardFace(this);
+            firstCard = this;
+            firstCardFliped = true;
         }
-        cardDeck[cardIndex].faceShown = !cardDeck[cardIndex].faceShown;
-
+        
     });
 });
 
