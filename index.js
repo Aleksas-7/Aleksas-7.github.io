@@ -95,7 +95,7 @@ $(document).ready(function () {
 
                 firstCard = null;
                 firstCardFliped = false;
-            }, 333);
+            }, 420);
             game_stop = true;
 
             
