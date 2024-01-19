@@ -13,29 +13,64 @@ let card = {
     backImagePath: "",
     faceShown: false
 }
+let blankCard = {...card};
+blankCard.value = "blank";
+blankCard.id = "blankCard";
+blankCard.faceImagePath = "art/blankCard.png";
+blankCard.backImagePath = "art/card_back.png";
 
-let cardDeck = [];
+function getRandomInt(max){
+    return Math.floor(Math.random() * max);
+}
+
+function arrayShuffling(array) {
+    for (var i = array.length - 1 ; i > 0 ; i--){
+        const j = getRandomInt(i+1);
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+let fullCardDeck = [];
 
 function makeDeck () {
+    for (var type of ["club", "heart"]){
+        for (var v of ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]){
+            let madeCard = {...card};
+            madeCard["id"] = type + v;
+            madeCard["value"] = type + v;
+            madeCard["faceImagePath"] = "art/" + type + "s" + v + ".png";
+            madeCard["backImagePath"] = "art/card_back.png";
+            fullCardDeck.push(madeCard)
+            if (console_log) {console.log("F makeDeck: " + madeCard.value);}
+        }
+    }
+
     
-    for (let i = 1 ; i <= 10 ; i++){
-        let madeCard = {...card};
-        madeCard["id"] = "club" + String(i);
-        madeCard["value"] = "club" + String(i);
-        madeCard["faceImagePath"] = "art/clubs" + String(i) + ".png";
-        madeCard["backImagePath"] = "art/card_back.png";
-        cardDeck.push(madeCard)
-        if (console_log) {console.log("F makeDeck: " + madeCard.value);}
-    }   
 }
 
 function renderDeck() {
+
     var game_size = game_difficulty + 2;
+    var cardsTotal = game_size * game_size;
+    var cardAmountNeeded = cardsTotal % 2 == 0 ? cardsTotal / 2 : (cardsTotal-1) / 2;
+    var newDeck = fullCardDeck.slice(0, cardAmountNeeded);
+    newDeck = newDeck.concat(newDeck);
+    
+    if (game_difficulty % 2 != 0){
+        newDeck = newDeck.concat(blankCard);
+    }
+    
+    
+    
+    
+    arrayShuffling(newDeck);
+
     var witch = 0;
     for (var row = 1 ; row <= game_size ; row++){
         for (var column = 1 ; column <= game_size ; column++){
 
-            var tempCard = {...cardDeck[witch]};
+            var tempCard = {...newDeck[witch]};
             if (console_log) {console.log("F renderDeck: " + tempCard.value);}
             witch++;
             var CardDiv = $("<div>");
@@ -52,24 +87,23 @@ function renderDeck() {
 
 function switchCardFace(cardCopy) {
     var cardId = $(cardCopy).parent().attr("id");
-    console.log("112 ", cardId);
     var idParts = cardId.split("c");
     var r = parseInt(idParts[0].replace("r", ""));
     var c = parseInt(idParts[1]);
 
     var cardIndex = (r - 1) * (game_difficulty + 2) + c - 1;
-    if (console_log){console.log("A Card Clicked r/c: " + String(r)+ "/" + String(c) + "| now face Shown " + String(!cardDeck[cardIndex].faceShown) + " |index: " + cardIndex);}
+    if (console_log){console.log("A Card Clicked r/c: " + String(r)+ "/" + String(c) + "| now face Shown " + String(!fullCardDeck[cardIndex].faceShown) + " |index: " + cardIndex);}
 
     var back = $(cardCopy).find(".back");
     var face = $(cardCopy).find(".face");
-    if (cardDeck[cardIndex].faceShown){
+    if (fullCardDeck[cardIndex].faceShown){
         back.show();
         face.hide();
     } else {
         back.hide();
         face.show();
     }
-    cardDeck[cardIndex].faceShown = !cardDeck[cardIndex].faceShown;
+    fullCardDeck[cardIndex].faceShown = !fullCardDeck[cardIndex].faceShown;
 }
 
 let firstCard = null;
@@ -78,6 +112,7 @@ let game_stop = false;
 
 $(document).ready(function () {
     makeDeck();
+    arrayShuffling(fullCardDeck);
     renderDeck();  
 
     $(document).on("click", ".card", function () {
