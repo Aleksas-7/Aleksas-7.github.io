@@ -3,7 +3,7 @@
 //Diff:  1   2   3   4   5
 
 
-let game_difficulty = 1; // add 2 for size
+let game_difficulty = 4; // add 2 for size
 let console_log = true;
 
 let card = {
@@ -45,34 +45,31 @@ function makeDeck () {
             if (console_log) {console.log("F makeDeck: " + madeCard.value);}
         }
     }
-
-    
 }
+
+let newDeck = [];
 
 function renderDeck() {
 
     var game_size = game_difficulty + 2;
     var cardsTotal = game_size * game_size;
     var cardAmountNeeded = cardsTotal % 2 == 0 ? cardsTotal / 2 : (cardsTotal-1) / 2;
-    var newDeck = fullCardDeck.slice(0, cardAmountNeeded);
+    newDeck = fullCardDeck.slice(0, cardAmountNeeded);
     newDeck = newDeck.concat(newDeck);
     
     if (game_difficulty % 2 != 0){
         newDeck = newDeck.concat(blankCard);
     }
     
-    
-    
-    
     arrayShuffling(newDeck);
 
-    var witch = 0;
+    var index = 0;
     for (var row = 1 ; row <= game_size ; row++){
         for (var column = 1 ; column <= game_size ; column++){
 
-            var tempCard = {...newDeck[witch]};
+            var tempCard = {...newDeck[index]};
             if (console_log) {console.log("F renderDeck: " + tempCard.value);}
-            witch++;
+            index++;
             var CardDiv = $("<div>");
             CardDiv.attr("id", tempCard.id);
             CardDiv.attr("class", "card");
@@ -92,18 +89,18 @@ function switchCardFace(cardCopy) {
     var c = parseInt(idParts[1]);
 
     var cardIndex = (r - 1) * (game_difficulty + 2) + c - 1;
-    if (console_log){console.log("A Card Clicked r/c: " + String(r)+ "/" + String(c) + "| now face Shown " + String(!fullCardDeck[cardIndex].faceShown) + " |index: " + cardIndex);}
+    if (console_log){console.log("A Card Clicked r/c: " + String(r)+ "/" + String(c) + "| now face Shown " + String(!newDeck[cardIndex].faceShown) + " |index: " + cardIndex);}
 
     var back = $(cardCopy).find(".back");
     var face = $(cardCopy).find(".face");
-    if (fullCardDeck[cardIndex].faceShown){
+    if (newDeck[cardIndex].faceShown){
         back.show();
         face.hide();
     } else {
         back.hide();
         face.show();
     }
-    fullCardDeck[cardIndex].faceShown = !fullCardDeck[cardIndex].faceShown;
+    newDeck[cardIndex].faceShown = !newDeck[cardIndex].faceShown;
 }
 
 let firstCard = null;
@@ -118,24 +115,24 @@ $(document).ready(function () {
     $(document).on("click", ".card", function () {
         
         if (firstCardFliped && !game_stop){
-            const currentCard = this;
-            switchCardFace(currentCard);
-            // jau atverstos abi kortos: this ir firstCard
-
-            setTimeout(() => {
-                switchCardFace(firstCard);
+            if ($(this).parent().attr("id") == $(firstCard).parent().attr("id")){
+                console.log("Same card clicked twice");
+            } else {
+                const currentCard = this;
                 switchCardFace(currentCard);
+                // jau atverstos abi kortos: this ir firstCard
 
-                game_stop = false;
+                setTimeout(() => {
+                    switchCardFace(firstCard);
+                    switchCardFace(currentCard);
 
-                firstCard = null;
-                firstCardFliped = false;
-            }, 420);
-            game_stop = true;
+                    game_stop = false;
 
-            
-
-
+                    firstCard = null;
+                    firstCardFliped = false;
+                }, 420);
+                game_stop = true;
+            }
         } else if (!game_stop) {
             switchCardFace(this);
             firstCard = this;
