@@ -72,6 +72,16 @@ body {
     align-content: flex-start;
     justify-content: center;
 }
+#game-leaderboard {
+    background-color: beige;
+    height: calc(100% - 35px);
+}
+#game-leaderboard li {
+    padding-left: 5px;
+}
+ol {
+    padding-left: 25px;
+}
 
 
 .top-nav-button {

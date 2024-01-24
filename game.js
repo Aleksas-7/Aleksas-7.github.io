@@ -6,6 +6,29 @@
 
 let game_difficulty = 1; // add 2 for size
 let testing_log = true;
+if (localStorage.scores === ""){
+    $("#diffDisplay").html("Dif");
+} else {
+    $("#diffDisplay").html("Di");
+    localStorage.setItem("scores", "");
+}
+
+const months = [
+    "January", "February", "March",
+    "April", "May", "June",
+    "July", "August", "September",
+    "October", "November", "December"
+];
+
+function makeDate (d) {
+    var month = (d.getMonth() + 1).toString();
+    var day = d.getDate();
+    return months[month] + " " + day;
+}
+
+function differeceOfDates (d1, d2) {
+    return ((d2.getTime() - d1.getTime()) / 1000).toString();
+}
 
 let card = {
     value: "",
@@ -68,11 +91,11 @@ function renderDeck() {
     var cardAmountNeeded = cardsTotal % 2 == 0 ? cardsTotal / 2 : (cardsTotal-1) / 2;
     newDeck = fullCardDeck.slice(0, cardAmountNeeded);
     newDeck = newDeck.concat(newDeck);
-    newDeck = arrayShuffling(newDeck);
     
     if (game_difficulty % 2 != 0){
         newDeck = newDeck.concat(blankCard);
     }
+    newDeck = arrayShuffling(newDeck);
     
     var index = 0;
     for (var row = 1 ; row <= game_size ; row++){
@@ -135,10 +158,30 @@ let firstIndex = null;
 
 let gameCardsLeft = (game_difficulty + 2) * (game_difficulty + 2);
 
+function resetGame() {
+    $("#diffDisplay").html(String(game_difficulty));
+    for (var row = 1 ; row <= 7 ; row++){
+        for (var column = 1 ; column <= 7 ; column++){
+            $("#r" + String(row) + "c" + String(column)).html("");
+        }
+    }
+    newDeck = [];
+    firstCard = null;
+    newDeckFirstCard = null;
+    firstCardFliped = false;
+    game_stop = false;
+    firstIndex = null;
+    gameCardsLeft = (game_difficulty + 2) * (game_difficulty + 2);
+    fullCardDeck = arrayShuffling(fullCardDeck);
+    renderDeck();
+    startTimer = new Date();
+}
+
 $(document).ready(function () {
     makeDeck();
     fullCardDeck = arrayShuffling(fullCardDeck);
-    renderDeck();  
+    renderDeck();
+    let startTimer = new Date();
 
     $(document).on("click", ".card", function () {
 
@@ -188,13 +231,38 @@ $(document).ready(function () {
                 }
             }
         }
-        console.log("gamecards left: ", gameCardsLeft);
 
-
-        if (gameCardsLeft == 0){
-            console.log("Testing game won");
+        if (gameCardsLeft == 0){            
+            var currentScores = localStorage.getItem("scores");
+            var cT = new Date();
+            currentScores += "<li>" + makeDate(startTimer) + ":  " + differeceOfDates(startTimer, cT) + "</li>";
+            localStorage.setItem("scores", currentScores);
             document.dispatchEvent(EVENT_gameFinished);
         }
+    });
+
+
+
+    $(document).on("click", "#diffIncrease", function () {
+        if(game_difficulty < 5){
+            game_difficulty++;
+            resetGame();
+        } else {
+            // Flash red?
+        }
+    });
+
+    $(document).on("click", "#diffDecrease", function () {
+        if (game_difficulty > 1) {
+            game_difficulty--;
+            resetGame();
+        } else {
+            // Flash red?
+        }
+    });
+
+    $(document).on("click", "#resetButton", function(){
+        resetGame();
     });
 });
 
