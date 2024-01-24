@@ -68,6 +68,7 @@ function renderDeck() {
     var cardAmountNeeded = cardsTotal % 2 == 0 ? cardsTotal / 2 : (cardsTotal-1) / 2;
     newDeck = fullCardDeck.slice(0, cardAmountNeeded);
     newDeck = newDeck.concat(newDeck);
+    newDeck = arrayShuffling(newDeck);
     
     if (game_difficulty % 2 != 0){
         newDeck = newDeck.concat(blankCard);
@@ -192,6 +193,7 @@ $(document).ready(function () {
 
         if (gameCardsLeft == 0){
             console.log("Testing game won");
+            document.dispatchEvent(EVENT_gameFinished);
         }
     });
 });
