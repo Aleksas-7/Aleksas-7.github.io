@@ -6,11 +6,15 @@
 
 let game_difficulty = 1; // add 2 for size
 let testing_log = true;
-if (localStorage.scores === ""){
-    $("#diffDisplay").html("Dif");
-} else {
-    $("#diffDisplay").html("Di");
-    localStorage.setItem("scores", "");
+var scores = localStorage.getItem("scores");
+function localStorageSetup (){
+
+    if (scores === null){
+        $("#diffDisplay").html("Dif");
+        localStorage.setItem("scores", "");
+    } else {
+        $("#diffDisplay").html("Di");
+    }
 }
 
 const months = [
@@ -175,9 +179,11 @@ function resetGame() {
     fullCardDeck = arrayShuffling(fullCardDeck);
     renderDeck();
     startTimer = new Date();
+    blankCard.state = "notFound";
 }
 
 $(document).ready(function () {
+    localStorageSetup();
     makeDeck();
     fullCardDeck = arrayShuffling(fullCardDeck);
     renderDeck();
