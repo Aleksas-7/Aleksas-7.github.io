@@ -5,6 +5,8 @@
 // td{with r/c id} > div{with id club10 and card class} > 2 imgs
 
 let game_difficulty = 1; // add 2 for size
+
+
 let testing_log = true;
 var scores = localStorage.getItem("scores");
 function localStorageSetup (){
@@ -17,17 +19,8 @@ function localStorageSetup (){
     }
 }
 
-const months = [
-    "January", "February", "March",
-    "April", "May", "June",
-    "July", "August", "September",
-    "October", "November", "December"
-];
-
 function makeDate (d) {
-    var month = (d.getMonth() + 1).toString();
-    var day = d.getDate();
-    return months[month] + " " + day;
+    return d.getYear()+1900 + "\\" + (d.getMonth() + 1).toString().padStart(2, "0") + "\\" + d.getDate().toString().padStart(2, "0");
 }
 
 function differeceOfDates (d1, d2) {
@@ -40,17 +33,7 @@ let card = {
     faceImagePath: "",
     backImagePath: "",
     faceShown: false,
-    state: "notFound",
-    showInfo (additionalStart = "", additionalEnd = "") {
-        console.log(
-            additionalStart +
-            "\n|value: " + this.value + 
-            "\n|id: " + this.id + 
-            "\n|faceShown: " + this.faceShown +
-            "\n|state: " + this.state +
-            additionalEnd
-        );
-    }
+    state: "notFound"
 }
 
 let blankCard = {...card};
@@ -82,7 +65,6 @@ function makeDeck () {
             madeCard["faceImagePath"] = "art/" + type + "s" + v + ".png";
             madeCard["backImagePath"] = "art/card_back.png";
             fullCardDeck.push(madeCard)
-            if (testing_log) {madeCard.showInfo();}
         }
     }
 }
@@ -163,11 +145,17 @@ let firstIndex = null;
 let gameCardsLeft = (game_difficulty + 2) * (game_difficulty + 2);
 
 function resetGame() {
+    fullCardDeck = [];
+    makeDeck();
+    fullCardDeck = arrayShuffling(fullCardDeck);
     $("#diffDisplay").html(String(game_difficulty));
     for (var row = 1 ; row <= 7 ; row++){
         for (var column = 1 ; column <= 7 ; column++){
             $("#r" + String(row) + "c" + String(column)).html("");
         }
+    }
+    for (card in fullCardDeck){
+        card.state = "notFound";
     }
     newDeck = [];
     firstCard = null;
@@ -241,7 +229,11 @@ $(document).ready(function () {
         if (gameCardsLeft == 0){            
             var currentScores = localStorage.getItem("scores");
             var cT = new Date();
-            currentScores += "<li>" + makeDate(startTimer) + ":  " + differeceOfDates(startTimer, cT) + "</li>";
+            currentScores += "<li>" 
+                + makeDate(startTimer) + ":  " 
+                + differeceOfDates(startTimer, cT).toString().padStart(10, " ") + ":  " 
+                + game_difficulty.toString().padStart(6, " ") 
+                + "</li>";
             localStorage.setItem("scores", currentScores);
             document.dispatchEvent(EVENT_gameFinished);
         }
