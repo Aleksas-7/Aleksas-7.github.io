@@ -1,0 +1,29 @@
+
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+h1 {
+    padding: 15px;
+}
+
+ol {
+    padding-left: 50px;
+}
+
+
+.project {
+    background-color: rgba(147, 202, 147, 0.163);
+    display: block;
+    padding: 3px;
+}
+.projectDescription {
+    display: none;
+    padding-top: 5px;
+}
+
+.project:hover .projectDescription {
+    display: block;
+}
