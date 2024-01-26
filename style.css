@@ -12,6 +12,9 @@ h1 {
 ol {
     padding-left: 50px;
 }
+li {
+    padding: 3px;
+}
 
 
 .project {
@@ -22,8 +25,8 @@ ol {
 .projectDescription {
     display: none;
     padding-top: 5px;
+    padding-left: 15px;
 }
-
 .project:hover .projectDescription {
     display: block;
 }
