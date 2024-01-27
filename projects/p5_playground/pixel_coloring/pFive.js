@@ -9,7 +9,7 @@ let gridShow = true;
 let gridColor = [25, 25, 25];
 
 let totalCellLimit = true;
-let totalCellCount = 16;
+let totalCellCount = 20;
 
 function make2DArray(c, r){
     let arr = new Array(c);
@@ -25,7 +25,10 @@ function make2DArray(c, r){
 function colorCell() {
     let col = floor(mouseX / cellWidth);
     let row = floor(mouseY / cellWidth);
-    if (mouseButton === LEFT){
+    if (col < 0 || col >= totalCellCount){
+        // nothing?
+    }
+    else if (mouseButton === LEFT){
         grid[col][row] = currentColor;
     }
     else if (mouseButton === RIGHT) {
@@ -33,6 +36,10 @@ function colorCell() {
     }
 }
 
+function resetCanvas(){
+
+    setup();
+}
 
 
 

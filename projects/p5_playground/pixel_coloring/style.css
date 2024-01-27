@@ -1,5 +1,6 @@
 
 body {
+    background-color: rgb(155, 150, 130);
 }
 
 main {
@@ -9,6 +10,13 @@ main {
     align-items: center;
 }
 
+label {
+    margin: 5px;
+}
+span {
+    width: 15px;
+}
+
 #canvasContainer {
     width: 400px;
     height: 400px;
@@ -16,13 +24,24 @@ main {
 }
 
 .control {
+    padding: 5px;
     width: 400px;
     display: block;
     flex-wrap: nowrap;
     text-wrap: nowrap;
+    border-bottom: 3px solid black;
 }
 
 input[type="color"] {
     height: 8px;
     
+}
+
+#backgroundControl{
+    display: flex;
+
+}
+
+#BGAlpha {
+    align-items: right;
 }

@@ -18,7 +18,9 @@ function updateBGAcolor(){
 
 $(document).ready(function () {
     $("#submitOptions").click(function (){
-        
+        totalCellCount = parseInt($("#cellCount").val());
+        console.log(totalCellCount);
+        resetCanvas();
     });
     $("#BGcol").on("input", function (){
         backgroundColor = hexToRgb(this.value);
@@ -36,4 +38,6 @@ $(document).ready(function () {
     $("#brushColor").on("input", function (){
         currentColor = hexToRgb(this.value);
     });
+
+    
 });
