@@ -1,10 +1,28 @@
 
 body {
-    background-color: rgb(84, 83, 83);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #canvasContainer {
     width: 400px;
     height: 400px;
     border: 3px solid rgb(0, 0, 0);
+}
+
+.control {
+    width: 400px;
+    display: block;
+    flex-wrap: nowrap;
+    text-wrap: nowrap;
+}
+
+input[type="color"] {
+    height: 8px;
+    
 }
