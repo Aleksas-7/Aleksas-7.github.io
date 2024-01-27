@@ -6,10 +6,37 @@
     <title>Pixel coloring</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
     <link rel="stylesheet" href="style.css">
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <script src="pFive.js"></script>
     <script src="index.js"></script>
 </head>
 <body>
     <div id="canvasContainer"></div>
+    <div id="cavasControls">
+        <div class="control" id="BGcontrol">
+            <label for="BGcol">Select background color:</label>
+            <input type="color" id="BGcol" name="BGcolor" value="#ffffff">
+            <br>
+            <label>Select background transparency<span id="BGAshow">(0)</span>:</label>
+            <input type="range" id="BGAlpha" name="BGAlpha" min="0" max="100">
+        </div>
+        <div class="control" id="gridControl">
+            <label for="gridShow">No grid:</label>
+            <input type="checkbox" id="gridShow" name="gridShow" checked>
+        </div>
+        <div class="control" id="coloringControl">
+            <label for="brushColor">Brush color:</label>
+            <input type="color" id="brushColor" name="brushColor" value="#ffffff">
+        </div>
+        <div class="control" id="canvasSizeControl">
+            <label for="cellCount">Cell count in a row:</label>
+            <input type="number" id="cellCount" name="cellCount">
+        </div>
+        <input type="submit" id="submitOptions">
+    </div>
     
     
 </body>
