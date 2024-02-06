@@ -39,5 +39,9 @@ $(document).ready(function () {
         currentColor = hexToRgb(this.value);
     });
 
+    $("#saveAsImage").on("click", function (){
+        save();
+    });
+
     
 });

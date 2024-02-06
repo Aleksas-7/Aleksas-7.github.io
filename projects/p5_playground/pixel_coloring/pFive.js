@@ -22,6 +22,10 @@ function make2DArray(c, r){
     return arr;
 }
 
+function save() {
+    saveCanvas();
+}
+
 function colorCell() {
     let col = floor(mouseX / cellWidth);
     let row = floor(mouseY / cellWidth);
