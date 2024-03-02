@@ -46,26 +46,26 @@ function setup() {
   originGrid = make2Darray(col, row);
 }
 
-function colorSuroundings(arr, withWhat, i, j){
-  
-    if (j > 0) {arr[i][j-1] = withWhat;}                    // u
-    if (i < col-1 && j > 0) {arr[i+1][j-1] = withWhat;}     // ur
-    if (i < col-1) {arr[i+1][j] = withWhat;}                // r
-    if (i < col-1 && j < row-1) {arr[i+1][j+1] = withWhat;} // dr
-    if (j < row-1) {arr[i][j+1] = withWhat;}                // d
-    if (i > 0 && j < row-1) {arr[i-1][j+1] = withWhat;}     // dl
-    if (i > 0) {arr[i-1][j] = withWhat;}                    // l
-    if (i > 0 && j > 0) {arr[i-1][j-1] = withWhat;}         // ul
-    arr[i][j] = withWhat;
-  
+function colorSuroundings(arr, withWhat, i, j) {
+
+  if (j > 0) { arr[i][j - 1] = withWhat; }                    // u
+  if (i < col - 1 && j > 0) { arr[i + 1][j - 1] = withWhat; }     // ur
+  if (i < col - 1) { arr[i + 1][j] = withWhat; }                // r
+  if (i < col - 1 && j < row - 1) { arr[i + 1][j + 1] = withWhat; } // dr
+  if (j < row - 1) { arr[i][j + 1] = withWhat; }                // d
+  if (i > 0 && j < row - 1) { arr[i - 1][j + 1] = withWhat; }     // dl
+  if (i > 0) { arr[i - 1][j] = withWhat; }                    // l
+  if (i > 0 && j > 0) { arr[i - 1][j - 1] = withWhat; }         // ul
+  arr[i][j] = withWhat;
+
 }
 
-function mousePressed (){
+function mousePressed() {
 
   let i = floor(mouseX / w);
   let j = floor(mouseY / w);
-  
-  if ((i >= 0 && i < col) && (j >= 0 && j < row)){
+
+  if ((i >= 0 && i < col) && (j >= 0 && j < row)) {
     colorSuroundings(originGrid, 1, i, j);
   }
 
@@ -74,8 +74,8 @@ function mousePressed (){
 function mouseDragged() {
   let i = floor(mouseX / w);
   let j = floor(mouseY / w);
-  
-  if ((i >= 0 && i < col) && (j >= 0 && j < row)){
+
+  if ((i >= 0 && i < col) && (j >= 0 && j < row)) {
     colorSuroundings(originGrid, 1, i, j);
   }
 }
@@ -91,9 +91,9 @@ function draw() {
     r = r > 255 ? 255 : r;
     r = r - 3;
   }
-  
-  
-  if(mouseIsPressed){
+
+
+  if (mouseIsPressed) {
     mousePressed();
   }
 
