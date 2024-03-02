@@ -80,7 +80,7 @@ function setup() {
     let canvas = createCanvas(400, 400)
     canvas.parent(select("#canvasContainer"));
 
-    DIM = 16;
+    DIM = 5;
     cwi = floor(width / DIM);
     che = floor(height / DIM);
 
@@ -357,7 +357,7 @@ function drawOneFrame() {
             let x = c * cwi;
             let y = r * che;
 
-            square(x, y, cwi);
+            //square(x, y, cwi);
 
             if (grid[dimCon(c, r)].collapsed){
                 tileSet[grid[dimCon(c, r)].cellImgId].put(x, y, cwi);
