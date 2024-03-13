@@ -57,21 +57,51 @@ class Tile {
 
 }
 
+function disArr(arr){
+    let st = "";
+    for (let i = 0 ; i < arr.length ; i++){
+        st += String(arr[i]) + " ";
+    }
+    return st;
+}
+
 let prt = false;
+let waterAndLand = true;
+let cityBase = false;
 let grid;
 let DIM;
 let cwi, che;
 let tile1, tile2, tile3, tile4, tile5;
-let img1, img2, img3, img4, img5;
+let img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11;
 let tileSet = new Array(14);
 let any = ["a", "a", "a"];
 
+let framesDrawn = 0;
+
 function preload() {
-    img1 = loadImage("tiles/tile_1.png");
-    img2 = loadImage("tiles/tile_2.png");
-    img3 = loadImage("tiles/tile_3.png");
-    img4 = loadImage("tiles/tile_4.png");
-    img5 = loadImage("tiles/tile_5.png");
+    if (waterAndLand){
+        img1 = loadImage("tiles/tile_1.png");
+        img2 = loadImage("tiles/tile_2.png");
+        img3 = loadImage("tiles/tile_3.png");
+        img4 = loadImage("tiles/tile_4.png");
+        img5 = loadImage("tiles/tile_5.png");
+    }
+    if (cityBase){
+        img1 = loadImage("til/tile_0001.png");
+        img2 = loadImage("til/tile_0010.png");
+        img3 = loadImage("til/tile_0011.png");
+        img4 = loadImage("til/tile_0012.png");
+        img5 = loadImage("til/tile_0029.png");
+
+        img6 = loadImage("til/tile_0030.png");
+        img7 = loadImage("til/tile_0032.png");
+        img8 = loadImage("til/tile_0034.png");
+        img9 = loadImage("til/tile_0048.png");
+        img10 = loadImage("til/tile_0060.png");
+
+        img11 = loadImage("til/tile_0061.png");
+    }
+
 }
 
 
@@ -80,58 +110,147 @@ function setup() {
     let canvas = createCanvas(400, 400)
     canvas.parent(select("#canvasContainer"));
 
-    DIM = 5;
+    DIM = 10;
     cwi = floor(width / DIM);
     che = floor(height / DIM);
 
-    // img1 is all land with water i 1 corner
-    // t1 and its rotations are correct
-    let t1r0 = new Tile(img1, ["la", "la", "wa"], ["wa", "la", "la"], ["la", "la", "la"], ["la", "la", "la"]);
-    let t1r1 = t1r0.rotat(1);
-    let t1r2 = t1r0.rotat(2);
-    let t1r3 = t1r0.rotat(3);
-    // bottom right water ? botton left corner
+    if (waterAndLand){
+        // img1 is all land with water i 1 corner
+        // t1 and its rotations are correct
+        let t1r0 = new Tile(img1, ["la", "la", "wa"], ["wa", "la", "la"], ["la", "la", "la"], ["la", "la", "la"]);
+        let t1r1 = t1r0.rotat(1);
+        let t1r2 = t1r0.rotat(2);
+        let t1r3 = t1r0.rotat(3);
+        // bottom right water ? botton left corner
 
-    // img2 is all water
-    let t2r0 = new Tile(img2, ["wa", "wa", "wa"], ["wa", "wa", "wa"], ["wa", "wa", "wa"], ["wa", "wa", "wa"]);
+        // img2 is all water
+        let t2r0 = new Tile(img2, ["wa", "wa", "wa"], ["wa", "wa", "wa"], ["wa", "wa", "wa"], ["wa", "wa", "wa"]);
 
-    // img3 is wa | la | la
-    let t3r0 = new Tile(img3, ["wa", "la", "la"], ["la", "la", "la"], ["la", "la", "wa"], ["wa", "wa", "wa"]);
-    let t3r1 = t3r0.rotat(1);
-    let t3r2 = t3r0.rotat(2);
-    let t3r3 = t3r0.rotat(3);
+        // img3 is wa | la | la
+        let t3r0 = new Tile(img3, ["wa", "la", "la"], ["la", "la", "la"], ["la", "la", "wa"], ["wa", "wa", "wa"]);
+        let t3r1 = t3r0.rotat(1);
+        let t3r2 = t3r0.rotat(2);
+        let t3r3 = t3r0.rotat(3);
 
-    // img4 is big corner of land suraunded by water
-    let t4r0 = new Tile(img4, ["wa", "wa", "wa"], ["wa", "la", "la"], ["la", "la", "wa"], ["wa", "wa", "wa"]);
-    let t4r1 = t4r0.rotat(1);
-    let t4r2 = t4r0.rotat(2);
-    let t4r3 = t4r0.rotat(3);
+        // img4 is big corner of land suraunded by water
+        let t4r0 = new Tile(img4, ["wa", "wa", "wa"], ["wa", "la", "la"], ["la", "la", "wa"], ["wa", "wa", "wa"]);
+        let t4r1 = t4r0.rotat(1);
+        let t4r2 = t4r0.rotat(2);
+        let t4r3 = t4r0.rotat(3);
 
-    // img5 is all land
-    let t5r0 = new Tile(img5, ["la", "la", "la"], ["la", "la", "la"], ["la", "la", "la"], ["la", "la", "la"]);
+        // img5 is all land
+        let t5r0 = new Tile(img5, ["la", "la", "la"], ["la", "la", "la"], ["la", "la", "la"], ["la", "la", "la"]);
 
-    tileSet[0] = t1r0;
-    tileSet[1] = t1r1;
-    tileSet[2] = t1r2;
-    tileSet[3] = t1r3;
+        tileSet[0] = t1r0;
+        tileSet[1] = t1r1;
+        tileSet[2] = t1r2;
+        tileSet[3] = t1r3;
 
-    tileSet[4] = t2r0;
+        tileSet[4] = t2r0;
 
-    tileSet[5] = t3r0;
-    tileSet[6] = t3r1;
-    tileSet[7] = t3r2;
-    tileSet[8] = t3r3;
+        tileSet[5] = t3r0;
+        tileSet[6] = t3r1;
+        tileSet[7] = t3r2;
+        tileSet[8] = t3r3;
 
-    tileSet[9] = t4r0;
-    tileSet[10] = t4r1;
-    tileSet[11] = t4r2;
-    tileSet[12] = t4r3; // check
+        tileSet[9] = t4r0;
+        tileSet[10] = t4r1;
+        tileSet[11] = t4r2;
+        tileSet[12] = t4r3; // check
 
-    tileSet[13] = t5r0;
+        tileSet[13] = t5r0;
+    }
 
+    if (cityBase){
+        
+        tileSet = new Array(29);
+
+        let l1r0 = new Tile(img1, ["wa", "wa", "wa"], ["wa", "wa", "wa"], ["wa", "wa", "wa"], ["wa", "wa", "wa"]);
+        let l2r0 = new Tile(img2, ["wa", "wa", "wa"], ["wa", "sa", "or"], ["or", "or", "or"], ["or", "sa", "wa"]);
+        let l2r1 = l2r0.rotat(1);
+        let l2r2 = l2r0.rotat(2);
+        let l2r3 = l2r0.rotat(3);
+
+        let l3r0 = new Tile(img3, ["wa", "wa", "wa"], ["wa", "wa", "wa"], ["wa", "sa", "or"], ["or", "sa", "wa"]);
+        let l3r1 = l3r0.rotat(1);
+        let l3r2 = l3r0.rotat(2);
+        let l3r3 = l3r0.rotat(3);
+  
+        let l4r0 = new Tile(img4, ["or", "or", "or"], ["or", "sa", "wa"], ["wa", "sa", "or"], ["or", "or", "or"]);
+        let l4r1 = l4r0.rotat(1);
+        let l4r2 = l4r0.rotat(2);
+        let l4r3 = l4r0.rotat(3);
+
+        let l5r0 = new Tile(img5, ["gr", "gr", "gr"], ["gr", "gr", "gr"], ["gr", "gr", "gr"], ["gr", "gr", "gr"]);
+        let l5r1 = l5r0.rotat(1);
+        let l5r2 = l5r0.rotat(2);
+        let l5r3 = l5r0.rotat(3);
+        
+        let l6r0 = new Tile(img6, ["gr", "ws", "wa"], ["wa", "wa", "wa"], ["wa", "ws", "gr"], ["gr", "gr", "gr"]);
+        let l6r1 = l6r0.rotat(1);
+        let l6r2 = l6r0.rotat(2);
+        let l6r3 = l6r0.rotat(3);
+        
+        let l7r0 = new Tile(img7, ["wa", "ws", "gr"], ["gr", "gr", "gr"], ["gr", "gr", "gr"], ["gr", "ws", "wa"]);
+        let l7r1 = l7r0.rotat(3);
+        let l7r2 = l7r0.rotat(3);
+        let l7r3 = l7r0.rotat(3);
+        
+        let l8r0 = new Tile(img8, ["or", "or", "or"], ["or", "or", "or"], ["or", "or", "or"], ["or", "or", "or"]);
+        
+        let l9r0 = new Tile(img9, ["gr", "gr", "gr"], ["gr", "gr", "gr"], ["gr", "gr", "gr"], ["gr", "gr", "gr"]);
+        
+        let l10r0 = new Tile(img10, ["or", "or", "or"], ["or", "or", "or"], ["or", "or", "or"], ["or", "or", "or"]);
+        
+        let l11r0 = new Tile(img11, ["or", "or", "or"], ["or", "or", "or"], ["or", "or", "or"], ["or", "or", "or"]);
+        
+        tileSet[0] = l1r0;
+        tileSet[1] = l2r0;
+        tileSet[2] = l2r1;
+        tileSet[3] = l2r2;
+        tileSet[4] = l2r3;
+
+        tileSet[5] = l3r0;
+        tileSet[6] = l3r1;
+        tileSet[7] = l3r2;
+        tileSet[8] = l3r3;
+        tileSet[9] = l4r0;
+    
+        tileSet[10] = l4r1;
+        tileSet[11] = l4r2;
+        tileSet[12] = l4r3;
+        tileSet[13] = l5r0;
+        tileSet[14] = l5r1;
+    
+        tileSet[15] = l5r2;
+        tileSet[16] = l5r3;
+        tileSet[17] = l6r0;
+        tileSet[18] = l6r1;
+        tileSet[19] = l6r2;
+    
+        tileSet[20] = l6r3;
+        tileSet[21] = l7r0;
+        tileSet[22] = l7r1;
+        tileSet[23] = l7r2;
+        tileSet[24] = l7r3;
+    
+        tileSet[25] = l8r0;
+        tileSet[26] = l9r0;
+        tileSet[27] = l1r0;
+        tileSet[28] = l11r0;
+    }
     gridSetup();
-    noLoop();
 }
+
+function draw() {
+    frameRate(25);
+    framesDrawn++;
+    drawOneFrame();
+
+    framesDrawn >= DIM*DIM ? noLoop() : null;
+
+}
+
 
 function make2Darray(r, c) {
     let arr = new Array(c);
@@ -153,25 +272,27 @@ function getRandomInt(max) {
 
 function getMinEntropy(){
     let m = 0;
+    let pos = new Array(1);
     for (let i = 1 ; i < grid.length ; i++){
         if (grid[i].collapsed){
             continue;
         }
         else if (grid[i].entropy < grid[m].entropy){
             m = i;
+            pos = new Array(1);
+            pos[0] = m;
         }
+        else if (grid[i].entropy == grid[m].entropy){
+            pos.push(i);
+        }
+        
     }
     // smallest entropy is m;
     // gather all m m size entropy's and choose a random one
-    let mEnt = grid[m].entropy;
-    let pos = [m];
-    for (let i = 0 ; i < grid.lenth ; i++){
-        if (grid[i].entropy == mEnt){
-            console.log("gme push");
-            pos.push(i);
-        }
-    }
-    return pos[getRandomInt(pos.length)];
+    
+    let choice = pos[getRandomInt(pos.length)]; 
+    console.log(`Choice : ${choice} \nPos: ${disArr(pos)}`);
+    return choice;
 }
 
 function gridSetup(){
@@ -311,9 +432,9 @@ function updateSurroundings(){
 }
 
 function mouseClicked(){
-    //drawOneFrame();
     setup();
-    drawWholeFrame();
+    framesDrawn = 0;
+    loop();
 }
 
 function drawWholeFrame() {
@@ -338,7 +459,7 @@ function drawOneFrame() {
     let TILEindex = findTileFor(edgesM);
     prt ? console.log(`Index in tileSet is ${TILEindex}\n`) : null;
     grid[m].collapsed = true;
-    grid[m].entropy = 500000;
+    grid[m].entropy = 500000; // Hot fix 
     grid[m].cellImgId = TILEindex;
     grid[m].up = tileSet[TILEindex].up;
     grid[m].right = tileSet[TILEindex].right;
@@ -367,5 +488,6 @@ function drawOneFrame() {
     prt ? console.table(grid) : null;
     
 }
+
 
 
