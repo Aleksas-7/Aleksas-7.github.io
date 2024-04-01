@@ -273,6 +273,7 @@ function getRandomInt(max) {
 function getMinEntropy(){
     let m = 0;
     let pos = new Array(1);
+    pos[0] = m;
     for (let i = 1 ; i < grid.length ; i++){
         if (grid[i].collapsed){
             continue;
@@ -291,7 +292,7 @@ function getMinEntropy(){
     // gather all m m size entropy's and choose a random one
     
     let choice = pos[getRandomInt(pos.length)]; 
-    console.log(`Choice : ${choice} \nPos: ${disArr(pos)}`);
+    //console.log(`Choice : ${choice} \nPos: ${disArr(pos)}`);
     return choice;
 }
 
